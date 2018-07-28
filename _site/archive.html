@@ -273,12 +273,9 @@
   <ul class="menu">
     <li>
       <button type="button" class="button button--secondary button--pill tag-button js-article-tag " data-encode="">
-        Show All<div class="tag-button__count">1</div>
+        Show All<div class="tag-button__count">0</div>
       </button>
-    </li><li><button type="button" class="button button--pill tag-button tag-button-1 js-article-tag" data-encode="TeXt">
-          <span>TeXt</span><div class="tag-button__count">1</div>
-        </button>
-      </li></ul>
+    </li></ul>
 </div>
 <div class="js-result layout--archive__result"></div>
 </div>
@@ -344,7 +341,7 @@
     };
   })();
 
-  var data = initData('{"2018":[{"key":"1","title":"Welcome","tags":["TeXt"],"url":"%2F2018%2F07%2F01%2Fwelcome.html","date":"Jul 01"}]}');
+  var data = initData('{}');
 
   var searchByTag = memorize(function(tag) {
     var i, j, cur, _tags, _tag, _data = {};
