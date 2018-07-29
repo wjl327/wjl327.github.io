@@ -1,4 +1,6 @@
-{%- assign __locale = site.data.locale.LICENSE_ANNOUNCE -%}
+{%- if 1 != 1 -%}
+  {%- assign __locale = site.data.locale.LICENSE_ANNOUNCE -%}
+{%- endif -%}
 {%- include snippets/locale-to-string.html -%}
 {%- assign _license_announce = __return -%}
 
@@ -10,8 +12,7 @@
   {%- assign _license = _data_license[page.license] -%}
 {%- endif -%}
 
-
-{%- if _license -%}
+{%- if 1 != 1 -%}
 
   {%-assign _license_name = '<a itemprop="license" rel="license" href="[URL]">[NAME]</a>' | replace: "[URL]", _license.url | replace: "[NAME]", _license.name -%}
   <div class="license">

@@ -1,11 +1,10 @@
 <!DOCTYPE html><html lang="en">
   <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>404 - Jarvis Zone</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Reboot - Jarvis Zone</title>
 
-<meta name="description" content="Jarvis. Personal technology Blog. Java. Jvm. Spring. C++. Linux.
-">
-<link rel="canonical" href="http://localhost:4000/404.html"><link rel="alternate" type="application/rss+xml" title="Jarvis Zone" href="/feed.xml">
+<meta name="description" content="毕业后基本没写过博客，因为觉得能写的东西要么太浅，要么网上肯定有人写过，于是一放就是好几年了。在这期间，阅读和学习后只是做做笔记，记录下来自己翻翻。但毕竟笔记只有自己看，虽说也会整理，但较为随意，始终是以记为主，缺乏更完整的整理和思考。当然，博客也不一定有人看，所以就当作是一种约束吧。最主要这几年每每读各种博客，...">
+<link rel="canonical" href="http://localhost:4000/2018/01/01/reboot.html"><link rel="alternate" type="application/rss+xml" title="Jarvis Zone" href="/feed.xml">
 <!-- begin favicon --><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico">
 
 <meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
@@ -244,7 +243,7 @@
 </script></head>
   <body>
     <div class="root" data-is-touch="false">
-      <div class="layout--page clearfix"><div class="page__main js-page-main"><div class="page__main-inner">
+      <div class="layout--page clearfix"><div class="page__main js-page-main has-aside"><div class="page__main-inner">
     <div></div><div class="page__header"><header class="header">
   <div class="main clearfix">
     <div class="logo"><?xml version="1.0" encoding="iso-8859-1"?>
@@ -351,16 +350,53 @@
       <ul><li><a href="/">Home</a></li><li><a href="/archive.html">Archive</a></li><li><a href="/about.html">About</a></li></ul>
     </nav></div>
 </header>
-</div><div class="page__content"><div class ="main"><div class="col-aside js-col-aside"></div>
+</div><div class="page__content"><div class ="main"><div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-          <div class="col-main"><article itemscope itemtype="http://schema.org/WebPage"><header style="display: none;"><h1 itemprop="headline">404</h1></header><div class="article__info clearfix"><meta itemprop="author" content="Jarvis.Wu"/></div>
-<div class="js-article-content"><div class="layout--404">
-  <div class="main">
-    <h1>404</h1>
-  </div>
+          <div class="col-main"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1 itemprop="headline">Reboot</h1></header></div><div class="article__info clearfix"><meta itemprop="author" content="Jarvis.Wu"/><ul class="left-col menu"><li>
+          <a class="button button--secondary button--pill button--sm"
+            href="/archive.html?tag=%E6%84%9F%E6%82%9F">感悟</a>
+        </li><meta itemprop="keywords" content="感悟">
+    </ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <time datetime="2018-01-01T00:00:00+08:00"
+              itemprop="datePublished">Jan 01, 2018
+            </time></li></ul></div>
+<div class="js-article-content"><div class="layout--article">
+
+  <div class="article__content" itemprop="articleBody"><p>毕业后基本没写过博客，因为觉得能写的东西要么太浅，要么网上肯定有人写过，于是一放就是好几年了。在这期间，阅读和学习后只是做做笔记，记录下来自己翻翻。但毕竟笔记只有自己看，虽说也会整理，但较为随意，始终是以记为主，缺乏更完整的整理和思考。当然，博客也不一定有人看，所以就当作是一种约束吧。</p>
+
+<p>最主要这几年每每读各种博客，总是会想，如果坚持下来，也许我也写得比他还多吧，也许就是这种不甘心吧。</p>
+
+<p>工作久了发现技术输出还是蛮重要的，可以提升自己的影响力，可以是写文章，也可以是做分享。
+无论哪种，在这个过程中，即能锻炼写作的能力，又锻炼对某项技术或产品进行思考的能力，创作力或对信息的整理能力。</p>
+
+<p>写得好写得不好，可以慢慢改进。过程才是最重要的。折腾？哎！生命不息，学习不止。</p>
 </div>
 
-</div></article>
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-01-01T00:00:00+08:00"><!-- this will show at every article content's bottom --><div class="article__license"></div></footer></div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
+
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1, h2, h3, h4, h5, h6').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();</script></div></article>
           </div></div></div>
 
       <div class="page__footer">
@@ -611,7 +647,69 @@
   });
 })();/*(function () {
 
-})();*/</script>
+})();*/</script><script>
+  /* toc must before affix, since affix need to konw toc' height. */(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $articleContent = $('.js-article-content');
+    var $tocRoot = $('.js-toc-root'), $col2 = $('.js-col-aside');
+    var toc;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    tocDisabled = disabled();
+
+    setTimeout(function() {
+      toc = $tocRoot.toc({
+        selectors: TOC_SELECTOR,
+        container: $articleContent,
+        scrollTarget: hasSidebar ? '.js-page-main' : null,
+        scroller: hasSidebar ? '.js-page-main' : null,
+        disabled: tocDisabled
+      });
+    }, 1000);
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $pageFooter = $('.js-page-footer');
+    var $pageAside = $('.js-page-aside');
+    var affix;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+
+    setTimeout(function() {
+      affix = $pageAside.affix({
+        offsetBottom: $pageFooter.outerHeight(),
+        scrollTarget: hasSidebar ? '.js-page-main' : null,
+        scroller: hasSidebar ? '.js-page-main' : null,
+        scroll: hasSidebar ? $('.js-page-main').children() : null,
+        disabled: tocDisabled
+      });
+    }, 1000);
+
+    $window.on('resize', window.throttle(function() {
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+  });
+})();</script>
     </div>
     <script>(function () {
   var $root = document.getElementsByClassName('root')[0];
