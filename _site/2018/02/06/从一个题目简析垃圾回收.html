@@ -1,11 +1,10 @@
 <!DOCTYPE html><html lang="en">
   <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Home - Jarvis Zone</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Jvm系列：从一个题目简析垃圾回收 - Jarvis Zone</title>
 
-<meta name="description" content="Jarvis. Personal technology Blog. Java. Jvm. Spring. C++. Linux.
-">
-<link rel="canonical" href="http://localhost:4000/"><link rel="alternate" type="application/rss+xml" title="Jarvis Zone" href="/feed.xml">
+<meta name="description" content="一、概述  闲来有空翻翻书，捡捡一些基础点，就当静下心多写字。Java基础的东西无论怎么样都会想到JVM，而提JVM必然想到最常见的一些点：字节码加载，类初始化，方法执行，对象内存分配和回收，线程和锁机制等等。归纳整理的时候，怎么可以少了它们。不过，我打算换个方式，不写太多概念（网上一搜一把的），想从一些代码、例...">
+<link rel="canonical" href="http://localhost:4000/2018/02/06/%E4%BB%8E%E4%B8%80%E4%B8%AA%E9%A2%98%E7%9B%AE%E7%AE%80%E6%9E%90%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.html"><link rel="alternate" type="application/rss+xml" title="Jarvis Zone" href="/feed.xml">
 <!-- begin favicon --><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico">
 
 <meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
@@ -244,7 +243,7 @@
 </script></head>
   <body>
     <div class="root" data-is-touch="false">
-      <div class="layout--page clearfix"><div class="page__main js-page-main"><div class="page__main-inner">
+      <div class="layout--page clearfix"><div class="page__main js-page-main has-aside"><div class="page__main-inner">
     <div></div><div class="page__header"><header class="header">
   <div class="main clearfix">
     <div class="logo"><?xml version="1.0" encoding="iso-8859-1"?>
@@ -348,16 +347,21 @@
 </svg>
 <a title="Jarvis. Personal technology Blog. Java. Jvm. Spring. C++. Linux.
 " href="/">Jarvis Zone</a></div><nav>
-      <ul><li class="active"><a href="/">Home</a></li><li><a href="/archive.html">Archive</a></li><li><a href="/about.html">About</a></li></ul>
+      <ul><li><a href="/">Home</a></li><li><a href="/archive.html">Archive</a></li><li><a href="/about.html">About</a></li></ul>
     </nav></div>
 </header>
-</div><div class="page__content"><div class ="main"><div class="col-aside js-col-aside"></div>
+</div><div class="page__content"><div class ="main"><div class="col-aside js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
-          <div class="col-main"><article itemscope itemtype="http://schema.org/WebPage"><header style="display: none;"><h1 itemprop="headline">Home</h1></header><div class="article__info clearfix"><meta itemprop="author" content="Jarvis.Wu"/></div>
-<div class="js-article-content"><div class="layout--home">
+          <div class="col-main"><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1 itemprop="headline">Jvm系列：从一个题目简析垃圾回收</h1></header></div><div class="article__info clearfix"><meta itemprop="author" content="Jarvis.Wu"/><ul class="left-col menu"><li>
+          <a class="button button--secondary button--pill button--sm"
+            href="/archive.html?tag=Jvm">Jvm</a>
+        </li><meta itemprop="keywords" content="Jvm">
+    </ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <time datetime="2018-02-06T00:00:00+08:00"
+              itemprop="datePublished">Feb 06, 2018
+            </time></li></ul></div>
+<div class="js-article-content"><div class="layout--article">
 
-  <div class="post-list"><article itemscope itemtype="http://schema.org/BlogPosting"><header class="article__header"><h2 itemprop="headline"><a href="/2018/02/06/%E4%BB%8E%E4%B8%80%E4%B8%AA%E9%A2%98%E7%9B%AE%E7%AE%80%E6%9E%90%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.html">Jvm系列：从一个题目简析垃圾回收</a></h2></header>
-        <div class="article__content" itemprop="description articleBody"><h2 id="一概述">一、概述</h2>
+  <div class="article__content" itemprop="articleBody"><h2 id="一概述">一、概述</h2>
 <p>  闲来有空翻翻书，捡捡一些基础点，就当静下心多写字。
 Java基础的东西无论怎么样都会想到JVM，而提JVM必然想到最常见的一些点：字节码加载，类初始化，方法执行，对象内存分配和回收，线程和锁机制等等。归纳整理的时候，怎么可以少了它们。不过，我打算换个方式，不写太多概念（网上一搜一把的），想从一些代码、例子、题目或者疑问等方面来写写。</p>
 
@@ -491,31 +495,32 @@ PSPermGen total 21248K, used 3043K
 打印gc日志：启动程序时加vm参数-XX:+PrintGCDetails。</p>
 </div>
 
-        <p><a href="/2018/02/06/%E4%BB%8E%E4%B8%80%E4%B8%AA%E9%A2%98%E7%9B%AE%E7%AE%80%E6%9E%90%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.html">Click to read more ...</a></p><div class="article__info clearfix"><meta itemprop="author" content="Jarvis.Wu"/><ul class="left-col menu"><li>
-          <a class="button button--secondary button--pill button--sm"
-            href="/archive.html?tag=Jvm">Jvm</a>
-        </li><meta itemprop="keywords" content="Jvm">
-    </ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span itemprop="datePublished">Feb 06, 2018</span></li></ul></div>
-</article><article itemscope itemtype="http://schema.org/BlogPosting"><header class="article__header"><h2 itemprop="headline"><a href="/2018/01/01/reboot.html">Reboot</a></h2></header>
-        <div class="article__content" itemprop="description articleBody"><p>  毕业后基本没写过博客，因为觉得写出来的东西要么太浅，要么网上肯定有人写过，于是一放就是好几年了。在这期间，阅读和学习后只是做做笔记，记录下来，自己翻翻。但毕竟笔记只有自己看，虽说也会整理，但较为随意，始终是以记为主，缺乏更完整的整理和思考。当然，博客也不一定有人看，只是当作是一种约束罢了。</p>
+  <footer class="article__footer"><meta itemprop="dateModified" content="2018-02-06T00:00:00+08:00"><!-- this will show at every article content's bottom --><div class="article__license"></div></footer><div class="article__previous-next clearfix"><div class="next"><span>NEXT</span><a href="/2018/01/01/reboot.html">Reboot</a></div></div></div>
 
-<p>  这两年每每阅读别人的博客时，总在想，如果坚持下来，也许我也写了不少吧，也许就是这种不甘心吧。生命不息，折腾（学习）不止。</p>
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
 
-<p>  还有，工作久了发现技术输出还是蛮重要的，可以提升自己的影响力。可以输出文章，也可以是做分享。无论哪种，在这个过程中，即能锻炼写作的能力，又锻炼对某项技术或产品进行思考的能力，创作力或对信息的整理能力。写得好写得不好，可以慢慢改进，过程才是最重要的。</p>
-</div>
-
-        <p><a href="/2018/01/01/reboot.html">Click to read more ...</a></p><div class="article__info clearfix"><meta itemprop="author" content="Jarvis.Wu"/><ul class="left-col menu"><li>
-          <a class="button button--secondary button--pill button--sm"
-            href="/archive.html?tag=%E6%84%9F%E6%82%9F">感悟</a>
-        </li><meta itemprop="keywords" content="感悟">
-    </ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span itemprop="datePublished">Jan 01, 2018</span></li></ul></div>
-</article></div></div>
-
-<script>/*(function () {
-
-})();*/</script>
-
-</div></article>
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1, h2, h3, h4, h5, h6').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();</script></div></article>
           </div></div></div>
 
       <div class="page__footer">
@@ -766,7 +771,69 @@ PSPermGen total 21248K, used 3043K
   });
 })();/*(function () {
 
-})();*/</script>
+})();*/</script><script>
+  /* toc must before affix, since affix need to konw toc' height. */(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $articleContent = $('.js-article-content');
+    var $tocRoot = $('.js-toc-root'), $col2 = $('.js-col-aside');
+    var toc;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    tocDisabled = disabled();
+
+    setTimeout(function() {
+      toc = $tocRoot.toc({
+        selectors: TOC_SELECTOR,
+        container: $articleContent,
+        scrollTarget: hasSidebar ? '.js-page-main' : null,
+        scroller: hasSidebar ? '.js-page-main' : null,
+        disabled: tocDisabled
+      });
+    }, 1000);
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+  });
+})();(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $pageFooter = $('.js-page-footer');
+    var $pageAside = $('.js-page-aside');
+    var affix;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+
+    setTimeout(function() {
+      affix = $pageAside.affix({
+        offsetBottom: $pageFooter.outerHeight(),
+        scrollTarget: hasSidebar ? '.js-page-main' : null,
+        scroller: hasSidebar ? '.js-page-main' : null,
+        scroll: hasSidebar ? $('.js-page-main').children() : null,
+        disabled: tocDisabled
+      });
+    }, 1000);
+
+    $window.on('resize', window.throttle(function() {
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+  });
+})();</script>
     </div>
     <script>(function () {
   var $root = document.getElementsByClassName('root')[0];

@@ -365,9 +365,12 @@
   <ul class="menu">
     <li>
       <button type="button" class="button button--secondary button--pill tag-button js-article-tag " data-encode="">
-        Show All<div class="tag-button__count">1</div>
+        Show All<div class="tag-button__count">2</div>
       </button>
-    </li><li><button type="button" class="button button--pill tag-button tag-button-1 js-article-tag" data-encode="%E6%84%9F%E6%82%9F">
+    </li><li><button type="button" class="button button--pill tag-button tag-button-1 js-article-tag" data-encode="Jvm">
+          <span>Jvm</span><div class="tag-button__count">1</div>
+        </button>
+      </li><li><button type="button" class="button button--pill tag-button tag-button-1 js-article-tag" data-encode="%E6%84%9F%E6%82%9F">
           <span>感悟</span><div class="tag-button__count">1</div>
         </button>
       </li></ul>
@@ -436,7 +439,7 @@
     };
   })();
 
-  var data = initData('{"2018":[{"key":"1","title":"Reboot","tags":["%E6%84%9F%E6%82%9F"],"url":"%2F2018%2F01%2F01%2Freboot.html","date":"Jan 01"}]}');
+  var data = initData('{"2018":[{"key":"1","title":"Jvm%E7%B3%BB%E5%88%97%EF%BC%9A%E4%BB%8E%E4%B8%80%E4%B8%AA%E9%A2%98%E7%9B%AE%E7%AE%80%E6%9E%90%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6","tags":["Jvm"],"url":"%2F2018%2F02%2F06%2F%25E4%25BB%258E%25E4%25B8%2580%25E4%25B8%25AA%25E9%25A2%2598%25E7%259B%25AE%25E7%25AE%2580%25E6%259E%2590%25E5%259E%2583%25E5%259C%25BE%25E5%259B%259E%25E6%2594%25B6.html","date":"Feb 06"},{"key":"2","title":"Reboot","tags":["%E6%84%9F%E6%82%9F"],"url":"%2F2018%2F01%2F01%2Freboot.html","date":"Jan 01"}]}');
 
   var searchByTag = memorize(function(tag) {
     var i, j, cur, _tags, _tag, _data = {};
